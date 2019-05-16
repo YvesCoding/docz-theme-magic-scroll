@@ -1,14 +1,15 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsBase.json",
   "compilerOptions": {
-    "target": "es6",
+    "allowSyntheticDefaultImports": true,
+    "target": "es2015",
     "module": "esnext",
     "declaration": true,
     "sourceMap": false,
     "baseUrl": "src",
     "rootDir": "src",
     "outDir": "dist",
-    "typeRoots": ["../../node_modules/@types", "node_modules/@types"],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
       "~styles/*": ["styles/*"],
       "~utils/*": ["utils/*"]

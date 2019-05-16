@@ -63,7 +63,9 @@ const EditIcon = styled(Edit)<{ width: number }>`
 
 export const Page: SFC<PageProps> = ({
   children,
-  doc: { link, fullpage, edit = true },
+  doc: {
+    value: { link, fullpage, edit = true },
+  },
 }) => {
   const { repository } = useConfig()
   const content = (
