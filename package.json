@@ -1,6 +1,6 @@
 {
   "name": "docz-theme-magic-scroll",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The magic-scroll theme of docz",
   "license": "MIT",
   "main": "dist/index.js",
@@ -54,7 +54,8 @@
   },
   "peerDependencies": {
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "magic-scroll": "^0.0.1"
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
