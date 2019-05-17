@@ -1,13 +1,17 @@
-import * as React from 'react'
-import { SFC, Fragment } from 'react'
-import { PageProps, useConfig } from 'docz'
-import Edit from 'react-feather/dist/icons/edit-2'
-import styled from 'styled-components'
+import * as React from 'react';
+import { SFC, Fragment } from 'react';
+import { PageProps, useConfig } from 'docz';
+import Edit from 'react-feather/dist/icons/edit-2';
+import styled from 'styled-components';
 
-import { ButtonLink } from './Button'
-import { GithubLink, Sidebar, Main } from '../shared'
-import { get } from '~utils/theme'
-import { mq } from '~styles/responsive'
+import { ButtonLink } from './Button';
+import { GithubLink, Sidebar, Main } from '../shared';
+import { get } from '~utils/theme';
+import { mq } from '~styles/responsive';
+
+import Scrollbar, { GlobarBarOptionsContext } from 'magic-scroll';
+
+const { useEffect, useState } = React;
 
 const Wrapper = styled.div`
   flex: 1;
@@ -15,7 +19,7 @@ const Wrapper = styled.div`
   background: ${get('colors.background')};
   min-width: 0;
   position: relative;
-`
+`;
 
 export const Container = styled.div`
   box-sizing: border-box;
@@ -23,11 +27,11 @@ export const Container = styled.div`
 
   ${mq({
     width: ['100%', '100%', 920],
-    padding: ['20px', '0 40px 40px'],
+    padding: ['20px', '0 40px 40px']
   })}
 
   ${get('styles.container')};
-`
+`;
 
 const EditPage = styled(ButtonLink.withComponent('a'))`
   display: flex;
@@ -53,37 +57,59 @@ const EditPage = styled(ButtonLink.withComponent('a'))`
   ${mq({
     visibility: ['hidden', 'hidden', 'visible'],
     top: [0, -60, 32],
-    right: [0, 0, 40],
+    right: [0, 0, 40]
   })};
-`
+`;
 
 const EditIcon = styled(Edit)<{ width: number }>`
   margin-right: 5px;
-`
+`;
 
 export const Page: SFC<PageProps> = ({
   children,
   doc: {
-    value: { link, fullpage, edit = true },
-  },
+    value: { link, fullpage, edit = true }
+  }
 }) => {
-  const { repository } = useConfig()
+  const [containerHeight, setContainerHeight] = useState(0);
+  useEffect(() => {
+    const setHeight = () => {
+      setContainerHeight(window.innerHeight);
+    };
+    setHeight();
+    window.addEventListener('resize', setHeight);
+
+    return () => {
+      window.removeEventListener('resize', setHeight);
+    };
+  });
+  const { repository, themeConfig } = useConfig();
   const content = (
     <Fragment>
-      {link && edit && (
+      {false && link && edit && (
         <EditPage href={link} target="_blank">
           <EditIcon width={14} /> Edit page
         </EditPage>
       )}
       {children}
     </Fragment>
-  )
+  );
 
   return (
-    <Main>
-      {repository && <GithubLink repository={repository} />}
-      {!fullpage && <Sidebar />}
-      <Wrapper>{fullpage ? content : <Container>{content}</Container>}</Wrapper>
-    </Main>
-  )
-}
+    <GlobarBarOptionsContext.Provider
+      value={{
+        barBg: themeConfig.colors.primary
+      }}
+    >
+      <Main>
+        {repository && <GithubLink repository={repository} />}
+        {!fullpage && <Sidebar />}
+        <Scrollbar style={{ height: containerHeight + 'px' }}>
+          <Wrapper>
+            {fullpage ? content : <Container>{content}</Container>}
+          </Wrapper>
+        </Scrollbar>
+      </Main>
+    </GlobarBarOptionsContext.Provider>
+  );
+};

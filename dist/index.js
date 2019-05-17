@@ -34,6 +34,8 @@ var SearchIcon = _interopDefault(require('react-feather/dist/icons/search'));
 var ChevronDown = _interopDefault(require('react-feather/dist/icons/chevron-down'));
 var router = require('@reach/router');
 var Edit = _interopDefault(require('react-feather/dist/icons/edit-2'));
+var Scrollbar = require('magic-scroll');
+var Scrollbar__default = _interopDefault(Scrollbar);
 
 const white = '#FFFFFF';
 const grayUltraLight = '#FCFBFA';
@@ -1218,6 +1220,10 @@ const OrderedList = styled__default.ol.withConfig({
   displayName: "OrderedList"
 })(["list-style:none;counter-reset:my-awesome-counter;& li{counter-increment:my-awesome-counter;}& li::before{content:counter(my-awesome-counter) '. ';color:", ";font-weight:bold;font-family:'Playfair Display',serif;margin-right:5px;}", ";"], __chunk_1.get('colors.border'), __chunk_1.get('styles.ol'));
 
+const {
+  useEffect,
+  useState
+} = React;
 const Wrapper$a = styled__default.div.withConfig({
   displayName: "Page__Wrapper"
 })(["flex:1;color:", ";background:", ";min-width:0;position:relative;"], __chunk_1.get('colors.text'), __chunk_1.get('colors.background'));
@@ -1247,18 +1253,39 @@ const Page = ({
     }
   }
 }) => {
+  const [containerHeight, setContainerHeight] = useState(0);
+  useEffect(() => {
+    const setHeight = () => {
+      setContainerHeight(window.innerHeight);
+    };
+
+    setHeight();
+    window.addEventListener('resize', setHeight);
+    return () => {
+      window.removeEventListener('resize', setHeight);
+    };
+  });
   const {
-    repository
+    repository,
+    themeConfig
   } = docz.useConfig();
-  const content = React.createElement(React.Fragment, null, link && edit && React.createElement(EditPage, {
+  const content = React.createElement(React.Fragment, null, false && React.createElement(EditPage, {
     href: link,
     target: "_blank"
   }, React.createElement(EditIcon, {
     width: 14
   }), " Edit page"), children);
-  return React.createElement(Main, null, repository && React.createElement(GithubLink, {
+  return React.createElement(Scrollbar.GlobarBarOptionsContext.Provider, {
+    value: {
+      barBg: themeConfig.colors.primary
+    }
+  }, React.createElement(Main, null, repository && React.createElement(GithubLink, {
     repository: repository
-  }), !fullpage && React.createElement(Sidebar, null), React.createElement(Wrapper$a, null, fullpage ? content : React.createElement(Container, null, content)));
+  }), !fullpage && React.createElement(Sidebar, null), React.createElement(Scrollbar__default, {
+    style: {
+      height: containerHeight + 'px'
+    }
+  }, React.createElement(Wrapper$a, null, fullpage ? content : React.createElement(Container, null, content)))));
 };
 
 const Paragraph = styled__default.p.withConfig({
