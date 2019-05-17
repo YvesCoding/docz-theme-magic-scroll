@@ -59,7 +59,9 @@
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@loadable/component": "^5.10.1",
+    "@types/loadable__component": "^5.9.0",
     "@types/lodash": "^4.14.124",
+    "@types/reach__router": "^1.2.4",
     "@types/styled-components": "^4.1.14",
     "autoprefixer": "^9.5.1",
     "babel-plugin-lodash": "^3.3.4",
@@ -68,6 +70,8 @@
     "babel-preset-react-app": "^9.0.0",
     "cross-env": "^5.2.0",
     "docz-rollup": "^1.2.0",
+    "install": "^0.12.2",
+    "npm": "^6.9.0",
     "rollup": "^1.12.1",
     "typescript": "^3.3.4000"
   }
