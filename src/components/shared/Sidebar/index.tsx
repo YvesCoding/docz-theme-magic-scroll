@@ -1,25 +1,27 @@
-import * as React from 'react'
-import { Fragment, SFC, useState, useEffect } from 'react'
-import { useMenus, useWindowSize, usePrevious } from 'docz'
-import styled from 'styled-components'
+import * as React from 'react';
+import { Fragment, SFC, useState, useEffect } from 'react';
+import { useMenus, useWindowSize, usePrevious } from 'docz';
+import styled from 'styled-components';
 
-import { Logo } from '../Logo'
-import { Search } from '../Search'
-import { Menu } from './Menu'
-import { Docz } from './Docz'
-import { Hamburger } from './Hamburger'
+import { Logo } from '../Logo';
+import { Search } from '../Search';
+import { Menu } from './Menu';
+import { Docz } from './Docz';
+import { Hamburger } from './Hamburger';
 
-import { get } from '~utils/theme'
-import { mq, breakpoints } from '~styles/responsive'
+import { get } from '~utils/theme';
+import { mq, breakpoints } from '~styles/responsive';
+
+import Scrollbar from 'magic-scroll';
 
 interface WrapperProps {
-  opened: boolean
-  theme?: any
+  opened: boolean;
+  theme?: any;
 }
 
-const sidebarBg = get('colors.sidebarBg')
-const sidebarText = get('colors.sidebarText')
-const sidebarBorder = get('colors.sidebarBorder')
+const sidebarBg = get('colors.sidebarBg');
+const sidebarText = get('colors.sidebarText');
+const sidebarBorder = get('colors.sidebarBorder');
 
 const Wrapper = styled.div<WrapperProps>`
   position: relative;
@@ -31,7 +33,7 @@ const Wrapper = styled.div<WrapperProps>`
   z-index: 1000;
 
   ${mq({
-    position: ['absolute', 'absolute', 'absolute', 'relative'],
+    position: ['absolute', 'absolute', 'absolute', 'relative']
   })};
 
   dl {
@@ -44,12 +46,12 @@ const Wrapper = styled.div<WrapperProps>`
   }
 
   @media screen and (max-width: ${breakpoints.desktop - 1}px) {
-    transform: translateX(${p => (p.opened ? '-100%' : '0')});
-    position: ${p => (p.opened ? 'auto' : 'fixed')};
+    transform: translateX(${(p) => (p.opened ? '-100%' : '0')});
+    position: ${(p) => (p.opened ? 'auto' : 'fixed')};
   }
 
   ${get('styles.sidebar')};
-`
+`;
 
 const Content = styled.div`
   position: fixed;
@@ -61,20 +63,20 @@ const Content = styled.div`
   min-width: 280px;
   height: 100%;
   max-height: 100vh;
-`
+`;
 
 const Menus = styled.nav`
   flex: 1;
   overflow-y: auto;
   margin-bottom: 10px;
-`
+`;
 
 const Empty = styled.div`
   flex: 1;
   opacity: 0.7;
   padding: 0 24px;
   color: ${sidebarText};
-`
+`;
 
 const Footer = styled.div`
   padding: 10px 0;
@@ -84,25 +86,25 @@ const Footer = styled.div`
   font-size: 14px;
   color: ${sidebarText};
   border-top: 1px dashed ${sidebarBorder};
-`
+`;
 
 const FooterLink = styled.a`
   padding: 0;
   margin: 0;
   margin-left: 5px;
-`
+`;
 
 const FooterLogo = styled(Docz)<{ width: number }>`
   fill: ${sidebarText};
-`
+`;
 
 interface OpenProps {
-  opened: boolean
+  opened: boolean;
 }
 
 const ToggleBackground = styled.div<OpenProps>`
   content: '';
-  display: ${p => (p.opened ? 'none' : 'block')};
+  display: ${(p) => (p.opened ? 'none' : 'block')};
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
   width: 100vw;
@@ -113,36 +115,36 @@ const ToggleBackground = styled.div<OpenProps>`
   right: 0;
   cursor: pointer;
   z-index: 99;
-`
+`;
 
 export const Sidebar: SFC = () => {
-  const [hidden, setHidden] = useState(true)
-  const [query, setQuery] = useState('')
-  const menus = useMenus({ query })
-  const windowSize = useWindowSize()
-  const isDesktop = windowSize.innerWidth >= breakpoints.desktop
-  const prevIsDesktop = usePrevious(isDesktop)
+  const [hidden, setHidden] = useState(true);
+  const [query, setQuery] = useState('');
+  const menus = useMenus({ query });
+  const windowSize = useWindowSize();
+  const isDesktop = windowSize.innerWidth >= breakpoints.desktop;
+  const prevIsDesktop = usePrevious(isDesktop);
 
   useEffect(() => {
     if (!hidden && !prevIsDesktop && isDesktop) {
-      setHidden(true)
-      document.documentElement!.classList.remove('with-overlay')
+      setHidden(true);
+      document.documentElement!.classList.remove('with-overlay');
     }
-  })
+  });
 
   const addOverlayClass = (isHidden: boolean) => {
-    const method = !isHidden ? 'add' : 'remove'
+    const method = !isHidden ? 'add' : 'remove';
 
     if (typeof window !== 'undefined' && !isDesktop) {
-      document.documentElement!.classList[method]('with-overlay')
+      document.documentElement!.classList[method]('with-overlay');
     }
-  }
+  };
 
   const handleSidebarToggle = () => {
-    if (isDesktop) return
-    setHidden(s => !s)
-    addOverlayClass(!hidden)
-  }
+    if (isDesktop) return;
+    setHidden((s) => !s);
+    addOverlayClass(!hidden);
+  };
 
   return (
     <Fragment>
@@ -151,22 +153,23 @@ export const Sidebar: SFC = () => {
           <Hamburger opened={!hidden} onClick={handleSidebarToggle} />
           <Logo showBg={!hidden} />
           <Search onSearch={setQuery} />
-
-          {menus && menus.length === 0 ? (
-            <Empty>No documents found.</Empty>
-          ) : (
-            <Menus>
-              {menus &&
-                menus.map(menu => (
-                  <Menu
-                    key={menu.id}
-                    item={menu}
-                    sidebarToggle={handleSidebarToggle}
-                    collapseAll={Boolean(query.length)}
-                  />
-                ))}
-            </Menus>
-          )}
+          <Scrollbar>
+            {menus && menus.length === 0 ? (
+              <Empty>No documents found.</Empty>
+            ) : (
+              <Menus>
+                {menus &&
+                  menus.map((menu) => (
+                    <Menu
+                      key={menu.id}
+                      item={menu}
+                      sidebarToggle={handleSidebarToggle}
+                      collapseAll={Boolean(query.length)}
+                    />
+                  ))}
+              </Menus>
+            )}
+          </Scrollbar>
           <Footer>
             Built with
             <FooterLink href="https://docz.site" target="_blank">
@@ -177,5 +180,5 @@ export const Sidebar: SFC = () => {
       </Wrapper>
       <ToggleBackground opened={hidden} onClick={handleSidebarToggle} />
     </Fragment>
-  )
-}
+  );
+};

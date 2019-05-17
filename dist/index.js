@@ -33,9 +33,9 @@ var facepaint = _interopDefault(require('facepaint'));
 var SearchIcon = _interopDefault(require('react-feather/dist/icons/search'));
 var ChevronDown = _interopDefault(require('react-feather/dist/icons/chevron-down'));
 var router = require('@reach/router');
-var Edit = _interopDefault(require('react-feather/dist/icons/edit-2'));
 var Scrollbar = require('magic-scroll');
 var Scrollbar__default = _interopDefault(Scrollbar);
+var Edit = _interopDefault(require('react-feather/dist/icons/edit-2'));
 
 const white = '#FFFFFF';
 const grayUltraLight = '#FCFBFA';
@@ -1185,12 +1185,12 @@ const Sidebar = () => {
     showBg: !hidden
   }), React.createElement(Search, {
     onSearch: setQuery
-  }), menus && menus.length === 0 ? React.createElement(Empty, null, "No documents found.") : React.createElement(Menus, null, menus && menus.map(menu => React.createElement(Menu, {
+  }), React.createElement(Scrollbar__default, null, menus && menus.length === 0 ? React.createElement(Empty, null, "No documents found.") : React.createElement(Menus, null, menus && menus.map(menu => React.createElement(Menu, {
     key: menu.id,
     item: menu,
     sidebarToggle: handleSidebarToggle,
     collapseAll: Boolean(query.length)
-  }))), React.createElement(Footer, null, "Built with", React.createElement(FooterLink, {
+  })))), React.createElement(Footer, null, "Built with", React.createElement(FooterLink, {
     href: "https://docz.site",
     target: "_blank"
   }, React.createElement(FooterLogo, {

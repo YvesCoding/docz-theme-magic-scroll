@@ -1,6 +1,6 @@
 {
   "name": "docz-theme-magic-scroll",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The magic-scroll theme of docz",
   "license": "MIT",
   "main": "dist/index.js",
@@ -37,7 +37,7 @@
     "facepaint": "^1.2.1",
     "hotkeys-js": "^3.6.6",
     "lodash": "^4.17.11",
-    "magic-scroll": "0.0.2",
+    "magic-scroll": "0.0.4",
     "polished": "^3.3.0",
     "prop-types": "15.7.2",
     "re-resizable": "^4.11.0",
@@ -56,7 +56,7 @@
   "peerDependencies": {
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "magic-scroll": "^0.0.2"
+    "magic-scroll": "^0.0.4"
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",

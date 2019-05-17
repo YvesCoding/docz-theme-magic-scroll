@@ -27,8 +27,8 @@ import facepaint from 'facepaint';
 import SearchIcon from 'react-feather/dist/icons/search';
 import ChevronDown from 'react-feather/dist/icons/chevron-down';
 import { Location } from '@reach/router';
-import Edit from 'react-feather/dist/icons/edit-2';
 import Scrollbar, { GlobarBarOptionsContext } from 'magic-scroll';
+import Edit from 'react-feather/dist/icons/edit-2';
 
 const white = '#FFFFFF';
 const grayUltraLight = '#FCFBFA';
@@ -1178,12 +1178,12 @@ const Sidebar = () => {
     showBg: !hidden
   }), createElement(Search, {
     onSearch: setQuery
-  }), menus && menus.length === 0 ? createElement(Empty, null, "No documents found.") : createElement(Menus, null, menus && menus.map(menu => createElement(Menu, {
+  }), createElement(Scrollbar, null, menus && menus.length === 0 ? createElement(Empty, null, "No documents found.") : createElement(Menus, null, menus && menus.map(menu => createElement(Menu, {
     key: menu.id,
     item: menu,
     sidebarToggle: handleSidebarToggle,
     collapseAll: Boolean(query.length)
-  }))), createElement(Footer, null, "Built with", createElement(FooterLink, {
+  })))), createElement(Footer, null, "Built with", createElement(FooterLink, {
     href: "https://docz.site",
     target: "_blank"
   }, createElement(FooterLogo, {
